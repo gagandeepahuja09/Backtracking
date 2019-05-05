@@ -1,22 +1,17 @@
-bool isPalin(string s) {
-    int i = 0, j = s.length() - 1;
-    while(i < j) {
-        if(s[i++] != s[j--])
-            return false;
+bool isPalin(string s, int start, int end) {
+    while(s[start] == s[end] && start < end) {
+        start++, end--;
     }
-    return true;
+    return start >= end;
 }
 
-void palinPart(string A, vector<vector<string>>& res, vector<string>& v,
-int start) {
-    if(start > A.length() - 1) {
-        res.push_back(v);
-        return;
-    }
-    for(int i = start; i<A.size(); i++) {
-        if(isPalin(A.substr(start, i - start + 1))) {
-            v.push_back(A.substr(start, i - start + 1));
-            palinPart(A, res, v, i + 1);
+void palinPart(string s, vector<vector<string>>& res, vector<string>& v, int start) {
+    if(start >= s.size())
+        res.push_back(v);    
+    for(int i = start; i < s.size(); i++) {
+        if(isPalin(s, start, i)) {
+            v.push_back(s.substr(start, i - start + 1));
+            palinPart(s, res, v, i + 1);
             v.pop_back();
         }
     }
